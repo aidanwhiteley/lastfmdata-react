@@ -1,14 +1,14 @@
 import React from 'react';
-import classes from './Navigation.module.css';
+// import classes from './Navigation.module.css';
 import Toolbar from './Toolbar/Toolbar';
 import SideDrawer from './SideDrawer/SideDrawer';
 
 const navigation = (props) => (
-    <div className={classes.navigation}>
+    <nav>
         This is the navigation
         <Toolbar />
         <SideDrawer />
-    </div>
+    </nav>
 );
 
 export default navigation;
