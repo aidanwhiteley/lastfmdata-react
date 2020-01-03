@@ -1,15 +1,14 @@
 import React, { Fragment } from 'react';
-import Navigation from '../Navigation/Navigation';
+import Toolbar from '../Navigation/Toolbar/Toolbar';
+import SideDrawer from '../Navigation/SideDrawer/SideDrawer';
 import PagePartialsContainer from '../PagePartials/PagePartialsContainer/PagePartialsContainer';
 
 import Footer from '../Footer/Footer';
 
 const layout = (props) => (
     <Fragment>
-        <Navigation>
-            <div>Toolbar</div>
-            <div>SideDrawer</div>
-        </Navigation>
+        <Toolbar />
+        <SideDrawer />
         <PagePartialsContainer />
         <Footer />
     </Fragment>
