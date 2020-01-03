@@ -5,7 +5,6 @@ import Logo from '../../UI/Logo/Logo';
 
 const toolbar = (props) => (
     <div className={classes.toolbar}>
-        This is a toolbar
         <Logo />
         <NavigationItems />
     </div>
