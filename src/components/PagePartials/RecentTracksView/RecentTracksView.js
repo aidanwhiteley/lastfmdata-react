@@ -16,12 +16,22 @@ class RecentTracksView extends Component {
                 this.setState({ recentTracks: response.data })
             }).catch(error => {
                 console.log('Its all gone so so wrong: ' + JSON.stringify(error));
-            });
+            }); 
     }
+
+    // componentDidMount() {
+    //     fetch('http://jsonplaceholder.typicode.com/users')
+    //     .then(res => res.json())
+    //     .then((data) => {
+    //       this.setState({ contacts: data })
+    //     })
+    //     .catch(console.log)
+    //   }
+    // }
 
     render() {
         return (<p>Working on it</p>)
     }
 }
 
-export default withAxiosErrorHandler(RecentTracksView, axios);
+export default RecentTracksView;
