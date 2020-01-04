@@ -31,11 +31,12 @@ class PopularTracksView extends Component {
 
         if (!this.state.isLoading && this.state.popularTracks) {
             const popularTracks = this.state.popularTracks.toptracks.track;
-
             const trackLinkFormatter = (cell, row) => (<a href={row.url}>{cell}</a>);
-
             const artistLinkFormatter = (cell, row) => (<a href={row.artist.url}>{cell}</a>);
-
+            const CaptionElement = () => <h3 
+                style={{ borderRadius: '0.25em', textAlign: 'center', color: 'purple', border: '1px solid purple', padding: '0.5em' }}>
+                    Most listened to tracks</h3>;
+                    
             const columns = [{
                 dataField: 'playcount',
                 text: 'Play count',
@@ -61,10 +62,11 @@ class PopularTracksView extends Component {
                 data={popularTracks}
                 columns={columns}
                 pagination={paginationFactory()}
+                caption={<CaptionElement />}
                 headerClasses="thead-light" />
         }
 
-        return (<div className="row">{JSX}</div>);
+        return (JSX);
     }
 }
 

@@ -27,12 +27,13 @@ class RecentTracksView extends Component {
 
     render() {
 
-        let JSX = <div className="row"><p>Awaiting data</p></div>;
+        let JSX = <p>Awaiting data</p>
 
         if (!this.state.isLoading && this.state.recentTracks) {
             const recentTracks = this.state.recentTracks.recenttracks.track;
-
-            const trackLinkFormatter = (cell, row) => (<a href={row.url}>{cell}</a>)
+            const trackLinkFormatter = (cell, row) => (<a href={row.url}>{cell}</a>);
+            const CaptionElement = () => <h3 style={{ borderRadius: '0.25em', textAlign: 'center', color: 'purple', border: '1px solid purple', padding: '0.5em' }}>
+                Tracks listened to recently</h3>;
 
             const columns = [{
                 dataField: 'date.#text',
@@ -53,7 +54,7 @@ class RecentTracksView extends Component {
                 sort: true
             }];
 
-            JSX = <div className="row"><BootstrapTable
+            JSX = <BootstrapTable
                 bootstrap4
                 striped
                 hover
@@ -62,7 +63,8 @@ class RecentTracksView extends Component {
                 data={recentTracks}
                 columns={columns}
                 pagination={paginationFactory()}
-                headerClasses="thead-light" /></div>
+                caption={<CaptionElement />}
+                headerClasses="thead-light" />
         }
 
         return (JSX);
