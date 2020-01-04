@@ -27,7 +27,7 @@ class RecentTracksView extends Component {
 
     render() {
 
-        let JSX = "<p>Awaiting data</p>";
+        let JSX = <div className="row"><p>Awaiting data</p></div>;
 
         if (!this.state.isLoading && this.state.recentTracks) {
             const recentTracks = this.state.recentTracks.recenttracks.track;
@@ -53,7 +53,7 @@ class RecentTracksView extends Component {
                 sort: true
             }];
 
-            JSX = <BootstrapTable
+            JSX = <div className="row"><BootstrapTable
                 bootstrap4
                 striped
                 hover
@@ -62,7 +62,7 @@ class RecentTracksView extends Component {
                 data={recentTracks}
                 columns={columns}
                 pagination={paginationFactory()}
-                headerClasses="thead-light" />
+                headerClasses="thead-light" /></div>
         }
 
         return (JSX);

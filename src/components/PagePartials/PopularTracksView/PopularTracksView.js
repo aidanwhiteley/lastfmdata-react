@@ -27,7 +27,7 @@ class PopularTracksView extends Component {
 
     render() {
 
-        let JSX = "<p>Awaiting data</p>";
+        let JSX = <p>Awaiting data</p>;
 
         if (!this.state.isLoading && this.state.popularTracks) {
             const popularTracks = this.state.popularTracks.toptracks.track;
@@ -64,7 +64,7 @@ class PopularTracksView extends Component {
                 headerClasses="thead-light" />
         }
 
-        return (JSX);
+        return (<div className="row">{JSX}</div>);
     }
 }
 

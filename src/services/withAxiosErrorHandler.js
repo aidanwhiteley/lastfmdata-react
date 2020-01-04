@@ -26,12 +26,12 @@ const withAxiosErrorHandler = (WrappedComponent, axios) => {
             });
 
             this.resInterceptor = axios.interceptors.response.use(res => {
-                console.log('http response recived ok');
+                // console.log('http response recived ok');
                 return res;
             }, anError => {
                 let errMsg = '' + anError;
                 if (that.state.userOrKeyNotEdited) {
-                    errMsg = 'The default API and user key in LastFmDataAxiosService must be edited before use and the stub data files in index.js should be commented out';
+                    errMsg = 'The default API and user key in LastFmDataAxiosService must be edited before use';
                 }
                 that.setState({ error: errMsg });
                 return Promise.reject(anError);
