@@ -17,7 +17,7 @@ const withAxiosErrorHandler = (WrappedComponent, axios) => {
             var that = this;
 
             this.reqInterceptor = axios.interceptors.request.use(function (config) {
-                console.log(config);
+                // console.log(config);
                 that.setState({ error: null, userOrKeyNotEdited: false });
                 if (config.params.api_key === 'xxx' || config.params.user === 'xxx') {
                     that.setState({ userOrKeyNotEdited: true });
@@ -26,6 +26,7 @@ const withAxiosErrorHandler = (WrappedComponent, axios) => {
             });
 
             this.resInterceptor = axios.interceptors.response.use(res => {
+                console.log('http response recived ok');
                 return res;
             }, anError => {
                 let errMsg = '' + anError;

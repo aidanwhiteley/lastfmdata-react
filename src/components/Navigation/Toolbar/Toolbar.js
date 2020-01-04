@@ -3,7 +3,7 @@ import NavigationItems from '../NavigationItems/NavigationItems';
 // import classes from './toolBar.module.css';
 
 const toolBar = (props) => (
-    <div>
+    <div class="row">
         <NavigationItems />
     </div>
 );
