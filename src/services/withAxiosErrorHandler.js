@@ -6,46 +6,36 @@ const withAxiosErrorHandler = (WrappedComponent, axios) => {
     return class extends Component {
 
         state = {
-            error: null
+            error: null,
+            userOrKeyNotEdited: false
         }
 
         constructor(props) {
             super(props);
-            this.reqInterceptor = axios.interceptors.request.use(function(config) {
-                console.log('Config were: ' + JSON.stringify(config));
-                //this.setState({ error: null });
+
+            // Store 'this' for use in later function calls!
+            var that = this;
+
+            this.reqInterceptor = axios.interceptors.request.use(function (config) {
+                console.log(config);
+                that.setState({ error: null, userOrKeyNotEdited: false });
                 if (config.params.api_key === 'xxx' || config.params.user === 'xxx') {
-                    const errMsg = { message: 'API or user key not set' };
-                    console.log(errMsg);
-                    this.state = { error: errMsg };
+                    that.setState({ userOrKeyNotEdited: true });
                 }
                 return config;
             });
-            this.resInterceptor = axios.interceptors.response.use(res => res, error => {
-                console.log('xxxxxxxxxxxxxxxxx' + JSON.stringify(error));
-                this.state = { error: error };
-                return Promise.reject(error);
+
+            this.resInterceptor = axios.interceptors.response.use(res => {
+                return res;
+            }, anError => {
+                let errMsg = '' + anError;
+                if (that.state.userOrKeyNotEdited) {
+                    errMsg = 'The default API and user key in LastFmDataAxiosService must be edited before use and the stub data files in index.js should be commented out';
+                }
+                that.setState({ error: errMsg });
+                return Promise.reject(anError);
             });
         }
-
-        //componentWillMount() {
-
-            // this.reqInterceptor = axios.interceptors.request.use(req => {
-            //     console.log('Req were: ' + JSON.stringify(req));
-            //     this.setState({ error: null });
-            //     return req;
-            // });
-            // this.resInterceptor = axios.interceptors.response.use(res => res, error => {
-            //     console.log('xxxxxxxxxxxxxxxxx' + JSON.stringify(error));
-            //     this.setState({ error: error });
-            // });
-
-
-            //if (axios.config.params.api_key === 'xxx' || axios.config.params.user === 'xxx') {
-            //    const errMsg = { message: 'API and user key not set' };
-            //    this.setState({ error: errMsg });
-            //}
-        //}
 
         componentWillUnmount() {
             axios.interceptors.request.eject(this.reqInterceptor);
@@ -53,18 +43,17 @@ const withAxiosErrorHandler = (WrappedComponent, axios) => {
         }
 
         errorConfirmedHandler = () => {
-            this.setState({ error: null });
+            this.setState({ error: null, userOrKeyNotEdited: false });
         }
 
         render() {
-            console.log('In render: ' + JSON.stringify(this.state));
 
             return (
                 <Fragment>
                     <Modal
                         show={this.state.error}
                         modalClosed={this.errorConfirmedHandler}>
-                        {this.state.error ? this.state.error.message : null}
+                        {this.state.error ? this.state.error : null}
                     </Modal>
                     <WrappedComponent {...this.props} />
                 </Fragment >

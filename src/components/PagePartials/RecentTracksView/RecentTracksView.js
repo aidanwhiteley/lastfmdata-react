@@ -11,27 +11,21 @@ class RecentTracksView extends Component {
     }
 
     componentDidMount() {
-        axios.get()
+        this.setState({ isLoading: true });
+        axios.get('/stubdata/getrecenttracks.json')
             .then(response => {
                 this.setState({ recentTracks: response.data })
+                this.setState({ isLoading: false });
+                console.log(response);
             }).catch(error => {
-                console.log('Its all gone so so wrong: ' + JSON.stringify(error));
-            }); 
+                // Handling the error should be done in withAxiosErrorHandler
+                this.setState({ isLoading: false });
+            });
     }
-
-    // componentDidMount() {
-    //     fetch('http://jsonplaceholder.typicode.com/users')
-    //     .then(res => res.json())
-    //     .then((data) => {
-    //       this.setState({ contacts: data })
-    //     })
-    //     .catch(console.log)
-    //   }
-    // }
 
     render() {
         return (<p>Working on it</p>)
     }
 }
 
-export default RecentTracksView;
+export default withAxiosErrorHandler(RecentTracksView, axios);
