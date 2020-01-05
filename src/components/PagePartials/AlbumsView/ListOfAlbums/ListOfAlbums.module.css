@@ -1,0 +1,9 @@
+.ListOfAlbums {
+    position: relative;
+}
+
+.ListOfAlbums:after {
+    content: "";
+    display: table;
+    clear: both;
+}
