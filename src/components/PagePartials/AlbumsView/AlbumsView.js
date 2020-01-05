@@ -4,7 +4,8 @@ import withAxiosErrorHandler from '../../../services/withAxiosErrorHandler';
 import axiosConfig from '../../../services/LastFmDataAxiosService';
 import * as Constants from '../../../constants/appConstants';
 import ListOfAlbums from './ListOfAlbums/ListOfAlbums';
-import NoAlbumImageAvailable from '../../../assets/images/no_image_available.png';
+import NoAlbumImageAvailable from '../../../assets/images/not-found.png';
+import classes from './AlbumsView.module.css';
 
 class AlbumsView extends Component {
 
@@ -60,7 +61,7 @@ class AlbumsView extends Component {
 
     render() {
 
-        let JSX = <p>Awaiting data</p>
+        let JSX = <div className={classes.Loader}>Loading...</div>
         if (!this.state.isLoading && this.state.topAlbums) {
             JSX = <ListOfAlbums albums={this.state.topAlbums} />
         }

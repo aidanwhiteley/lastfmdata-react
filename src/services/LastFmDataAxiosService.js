@@ -19,13 +19,12 @@ const lastFmDataService = (method, limit) => {
             params: {
                 method: '',
                 limit: 50,
-                user: 'xxx',
-                api_key: 'xxx',
+                user: Constants.LAST_FM_USER,
+                api_key: Constants.LAST_FM_API_KEY,
                 format: 'json',
-                period: '6month'
+                period: 'overall'
             },
         }
-
 
         const copy = Object.assign({}, instance);
         const paramsCopy = Object.assign({}, copy.params);

@@ -63,4 +63,4 @@ const withAxiosErrorHandler = (WrappedComponent, axios) => {
 
 };
 
-export default withAxiosErrorHandler;
+export default withAxiosErrorHandler;   

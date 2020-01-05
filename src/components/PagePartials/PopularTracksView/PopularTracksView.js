@@ -6,6 +6,7 @@ import * as Constants from '../../../constants/appConstants';
 import 'react-bootstrap-table-next/dist/react-bootstrap-table2.min.css';
 import BootstrapTable from 'react-bootstrap-table-next';
 import paginationFactory from 'react-bootstrap-table2-paginator';
+import classes from './PopularTracksView.module.css';
 
 class PopularTracksView extends Component {
 
@@ -29,7 +30,7 @@ class PopularTracksView extends Component {
 
     render() {
 
-        let JSX = <p>Awaiting data</p>;
+        let JSX = <div className={classes.Loader}>Loading...</div>;
 
         if (!this.state.isLoading && this.state.popularTracks) {
             const popularTracks = this.state.popularTracks.toptracks.track;
