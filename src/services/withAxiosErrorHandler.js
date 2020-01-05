@@ -17,9 +17,8 @@ const withAxiosErrorHandler = (WrappedComponent, axios) => {
             var that = this;
 
             this.reqInterceptor = axios.interceptors.request.use(function (config) {
-                // console.log(config);
                 that.setState({ error: null, userOrKeyNotEdited: false });
-                if (config.params.api_key === 'xxx' || config.params.user === 'xxx') {
+                if (config.params && (config.params.api_key === 'xxx' || config.params.user === 'xxx')) {
                     that.setState({ userOrKeyNotEdited: true });
                 }
                 return config;

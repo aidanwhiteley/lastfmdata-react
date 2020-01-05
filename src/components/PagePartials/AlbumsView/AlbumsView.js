@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
-import axios from '../../../services/LastFmDataAxiosService';
+import axios from 'axios';
 import withAxiosErrorHandler from '../../../services/withAxiosErrorHandler';
-// import classes from './AlbumsView.module.css';
+import axiosConfig from '../../../services/LastFmDataAxiosService';
+import * as Constants from '../../../constants/appConstants';
 import ListOfAlbums from './ListOfAlbums/ListOfAlbums';
 import NoAlbumImageAvailable from '../../../assets/images/no_image_available.png';
 
@@ -31,7 +32,8 @@ class AlbumsView extends Component {
 
     componentDidMount() {
         this.setState({ isLoading: true });
-        axios.get('/stubdata/gettopalbums.json')
+
+        axios.request(axiosConfig(Constants.METHOD_TOP_ALBUMS, 20))
             .then(response => {
 
                 // Map data into easier to use format

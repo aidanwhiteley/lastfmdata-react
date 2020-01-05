@@ -1,20 +1,56 @@
-import axios from 'axios';
 
-// Unfortunatley there is currently a bug in Axios 0.19 meaning that 
-// params set here aren't used. Works with axios 0.18
-const instance = axios.create({
-    //baseURL: 'http:localhost:3000',
-    timeout: 7000,
-    responseType: 'json',
-    params: {
-        method: 'getrecenttracks.json',
-        limit: 50,
-        user: '???',
-        api_key: '???',
-        format: 'json',
-        period: '6month'
-    },
+import * as Constants from '../constants/appConstants';
 
-})
+// Originally this was used to create an instance of axios. 
+// However, there is a bug in the current (v0.19) version of axios that 
+// meant it wasn't possible to merge instance params with those supplied by the caller.
+// That bug has been open for a while which meant we were having to use v0.18.
+// So this now just provides a copy of the required config with the caller
+// required to pass in the "method" to be called on the LastFM API and the 
+// required number of objects to be returned.
+const lastFmDataService = (method, limit) => {
 
-export default instance;
+    const getLastFmConfigInstance = (method, limit) => {
+        const instance = {
+            baseURL: 'https://ws.audioscrobbler.com',
+            url: '/2.0/?',
+            timeout: 7000,
+            responseType: 'json',
+            params: {
+                method: '',
+                limit: 50,
+                user: 'xxx',
+                api_key: 'xxx',
+                format: 'json',
+                period: '6month'
+            },
+        }
+
+
+        const copy = Object.assign({}, instance);
+        const paramsCopy = Object.assign({}, copy.params);
+        copy.params = paramsCopy;
+
+        copy.params.method = method;
+        copy.params.limit = limit;
+
+        return copy;
+    }
+
+    // In dev mode just return the location of stubbed data (within the project)
+    const getStubDataConfig = (method) => {
+        if (method === Constants.METHOD_TOP_ALBUMS) {
+            return Constants.STUB_TOP_ALBUMS;
+        } else if (method === Constants.METHOD_TOP_TRACKS) {
+            return Constants.STUB_TOP_TRACKS
+        } else if (method === Constants.METHOD_RECENT_TRACKS) {
+            return Constants.STUB_RECENT_TRACKS
+        } else {
+            throw new Error('Unsupported LastFM method name supplied');
+        }
+    }
+
+    return Constants.DEV_MODE ? getStubDataConfig(method) : getLastFmConfigInstance(method, limit);
+}
+
+export default lastFmDataService;

@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
-import axios from '../../../services/LastFmDataAxiosService';
+import axios from 'axios';
 import withAxiosErrorHandler from '../../../services/withAxiosErrorHandler';
-// import classes from './popularTracksView.module.css';
+import axiosConfig from '../../../services/LastFmDataAxiosService';
+import * as Constants from '../../../constants/appConstants';
 import 'react-bootstrap-table-next/dist/react-bootstrap-table2.min.css';
 import BootstrapTable from 'react-bootstrap-table-next';
 import paginationFactory from 'react-bootstrap-table2-paginator';
@@ -15,7 +16,8 @@ class PopularTracksView extends Component {
 
     componentDidMount() {
         this.setState({ isLoading: true });
-        axios.get('/stubdata/gettoptracks.json')
+
+        axios.request(axiosConfig(Constants.METHOD_TOP_TRACKS, 50))
             .then(response => {
                 this.setState({ popularTracks: response.data })
                 this.setState({ isLoading: false });
@@ -33,10 +35,10 @@ class PopularTracksView extends Component {
             const popularTracks = this.state.popularTracks.toptracks.track;
             const trackLinkFormatter = (cell, row) => (<a href={row.url}>{cell}</a>);
             const artistLinkFormatter = (cell, row) => (<a href={row.artist.url}>{cell}</a>);
-            const CaptionElement = () => <h3 
+            const CaptionElement = () => <h3
                 style={{ borderRadius: '0.25em', textAlign: 'center', color: 'purple', border: '1px solid purple', padding: '0.5em' }}>
-                    Most listened to tracks</h3>;
-                    
+                Most listened to tracks</h3>;
+
             const columns = [{
                 dataField: 'playcount',
                 text: 'Play count',

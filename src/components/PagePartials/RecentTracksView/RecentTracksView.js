@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
-import axios from '../../../services/LastFmDataAxiosService';
+import axios from 'axios';
 import withAxiosErrorHandler from '../../../services/withAxiosErrorHandler';
-// import classes from './recentTracksView.module.css';
+import axiosConfig from '../../../services/LastFmDataAxiosService';
+import * as Constants from '../../../constants/appConstants';
 import 'react-bootstrap-table-next/dist/react-bootstrap-table2.min.css';
 import BootstrapTable from 'react-bootstrap-table-next';
 import paginationFactory from 'react-bootstrap-table2-paginator';
@@ -15,7 +16,8 @@ class RecentTracksView extends Component {
 
     componentDidMount() {
         this.setState({ isLoading: true });
-        axios.get('/stubdata/getrecenttracks.json')
+
+        axios.request(axiosConfig(Constants.METHOD_RECENT_TRACKS, 50))
             .then(response => {
                 this.setState({ recentTracks: response.data })
                 this.setState({ isLoading: false });
