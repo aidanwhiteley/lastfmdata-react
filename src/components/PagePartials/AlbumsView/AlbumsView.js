@@ -14,6 +14,21 @@ class AlbumsView extends Component {
 
     smallDeviceImageOffset = window.screen.width < 500 ? 1 : 0;
 
+    whichAlbumImage = (anAlbum) => {
+        const countImageSlots = anAlbum.image.length;
+        // We expect 4 images per album - the slot name are in the array below just for info
+        if (countImageSlots !== ['small', 'medium', 'large', 'extralarge'].length) {
+            return NoAlbumImageAvailable;
+        } else {
+            const imageUrl = anAlbum.image[anAlbum.image.length - 1 - this.smallDeviceImageOffset]['#text'];
+            if (!imageUrl) {
+                return NoAlbumImageAvailable;
+            } else {
+                return imageUrl;
+            }
+        }
+    }
+
     componentDidMount() {
         this.setState({ isLoading: true });
         axios.get('/stubdata/gettopalbums.json')
@@ -27,9 +42,7 @@ class AlbumsView extends Component {
                         albumName: anAlbum.name,
                         albumUrl: anAlbum.url,
                         albumPlayCount: anAlbum.playcount,
-                        albumImage: anAlbum.image.length !== 0 ?
-                            anAlbum.image[anAlbum.image.length - 1 - this.smallDeviceImageOffset]['#text'] :
-                            NoAlbumImageAvailable
+                        albumImage: this.whichAlbumImage(anAlbum)
                     }
                 });
 

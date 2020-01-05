@@ -31,6 +31,24 @@
     transition: transform 0.4s ease-in-out, opacity 0.4s ease-in-out;
 }
 
+p {
+    margin-bottom: 5px;
+}
+
+.AlbumName {
+    margin-top: 15px;
+    font-size: 16px;
+    font-weight: bold;
+}
+
+.AlbumArtist {
+    font-size: 16px;
+}
+
+.AlbumTrackPlayCount {
+    font-size: 16px;
+}
+
 .Album .front {
     z-index: 1;
     -webkit-transform: rotateY(0deg);
