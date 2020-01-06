@@ -1,5 +1,4 @@
 import React from 'react';
-//import classes from './ListOfAlbums.module.css';
 import Album from './Album/Album';
 
 const listOfAlbums = (props) => {

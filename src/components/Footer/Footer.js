@@ -10,7 +10,7 @@ const footer = (props) => (
             <div className="x">powered by AudioScrobbler from <a href="http://www.last.fm/" target="_top">
                 <img src={lastFmImage} alt="Last fm logo" /></a>
             </div>
-            <div className="y">code available on <a href="https://github.com/aidanwhiteley" target="_top">
+            <div className="y">code available on <a href="https://github.com/aidanwhiteley/lastfmdata-react" target="_top">
                 <img src={gitHubImage} alt="GitHub logo" /></a>
             </div>
         </div>
