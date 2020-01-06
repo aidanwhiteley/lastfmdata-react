@@ -6,6 +6,7 @@ import * as Constants from '../../../constants/appConstants';
 import 'react-bootstrap-table-next/dist/react-bootstrap-table2.min.css';
 import BootstrapTable from 'react-bootstrap-table-next';
 import paginationFactory from 'react-bootstrap-table2-paginator';
+import 'react-bootstrap-table2-paginator/dist/react-bootstrap-table2-paginator.min.css';
 import classes from './RecentTracksView.module.css';
 
 class RecentTracksView extends Component {
@@ -20,7 +21,17 @@ class RecentTracksView extends Component {
 
         axios.request(axiosConfig(Constants.METHOD_RECENT_TRACKS, 50))
             .then(response => {
-                this.setState({ recentTracks: response.data })
+                const tracks = response.data.recenttracks.track;
+
+                // Fix for there being now date on Now Playing tracks (as we use this for the key field)
+                tracks.forEach(aTrack => {
+                    if (!aTrack.date) {
+                        aTrack.date = {};
+                        aTrack.date.uts = + new Date();
+                    }
+                })
+
+                this.setState({ recentTracks: tracks })
                 this.setState({ isLoading: false });
             }).catch(error => {
                 // Handling the error should be done in withAxiosErrorHandler
@@ -33,7 +44,7 @@ class RecentTracksView extends Component {
         let JSX = <div className={classes.Loader}>Loading...</div>;
 
         if (!this.state.isLoading && this.state.recentTracks) {
-            const recentTracks = this.state.recentTracks.recenttracks.track;
+            const recentTracks = this.state.recentTracks;
             const trackLinkFormatter = (cell, row) => (<a href={row.url}>{cell}</a>);
             const nowPlayingCheck = (cell, row) => (row["@attr"] && row["@attr"].nowplaying ? 'Now playing!' : cell);
             const CaptionElement = () => <h3 style={{ borderRadius: '0.25em', textAlign: 'center', color: 'purple', border: '1px solid purple', padding: '0.5em' }}>
@@ -68,7 +79,7 @@ class RecentTracksView extends Component {
                 data={recentTracks}
                 columns={columns}
                 pagination={paginationFactory()}
-                caption={<CaptionElement />}
+                caption={< CaptionElement />}
                 headerClasses="thead-light" />
         }
 
