@@ -35,13 +35,15 @@ class RecentTracksView extends Component {
         if (!this.state.isLoading && this.state.recentTracks) {
             const recentTracks = this.state.recentTracks.recenttracks.track;
             const trackLinkFormatter = (cell, row) => (<a href={row.url}>{cell}</a>);
+            const nowPlayingCheck = (cell, row) => (row["@attr"] && row["@attr"].nowplaying ? 'Now playing!' : cell);
             const CaptionElement = () => <h3 style={{ borderRadius: '0.25em', textAlign: 'center', color: 'purple', border: '1px solid purple', padding: '0.5em' }}>
                 Recently played tracks</h3>;
 
             const columns = [{
                 dataField: 'date.#text',
                 text: 'Date/time',
-                sort: true
+                sort: true,
+                formatter: nowPlayingCheck
             }, {
                 dataField: 'name',
                 text: 'Track Name',

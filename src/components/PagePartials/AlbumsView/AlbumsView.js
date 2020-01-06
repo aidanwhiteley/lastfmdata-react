@@ -52,7 +52,6 @@ class AlbumsView extends Component {
                 this.setState({ topAlbums: albums })
                 this.setState({ isLoading: false });
 
-                console.log(this.state.topAlbums);
             }).catch(error => {
                 // Handling the error should be done in withAxiosErrorHandler
                 this.setState({ isLoading: false });

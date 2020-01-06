@@ -25,7 +25,6 @@ const withAxiosErrorHandler = (WrappedComponent, axios) => {
             });
 
             this.resInterceptor = axios.interceptors.response.use(res => {
-                // console.log('http response recived ok');
                 return res;
             }, anError => {
                 let errMsg = '' + anError;
