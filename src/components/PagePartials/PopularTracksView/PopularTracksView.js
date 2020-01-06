@@ -38,7 +38,7 @@ class PopularTracksView extends Component {
             const artistLinkFormatter = (cell, row) => (<a href={row.artist.url}>{cell}</a>);
             const CaptionElement = () => <h3
                 style={{ borderRadius: '0.25em', textAlign: 'center', color: 'purple', border: '1px solid purple', padding: '0.5em' }}>
-                Most listened to tracks</h3>;
+                Most played tracks</h3>;
 
             const columns = [{
                 dataField: 'playcount',

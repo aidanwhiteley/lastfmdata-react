@@ -36,7 +36,7 @@ class RecentTracksView extends Component {
             const recentTracks = this.state.recentTracks.recenttracks.track;
             const trackLinkFormatter = (cell, row) => (<a href={row.url}>{cell}</a>);
             const CaptionElement = () => <h3 style={{ borderRadius: '0.25em', textAlign: 'center', color: 'purple', border: '1px solid purple', padding: '0.5em' }}>
-                Tracks listened to recently</h3>;
+                Recently played tracks</h3>;
 
             const columns = [{
                 dataField: 'date.#text',

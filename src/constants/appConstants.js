@@ -1,9 +1,9 @@
 // Set this to true to return stubbed data and avoid calling the real LastFM APIs
-export const DEV_MODE = true;
+export const DEV_MODE = false;
 
 // Enter you LastFM user name and API key below
-export const LAST_FM_USER = 'xxx';
-export const LAST_FM_API_KEY = 'xxx';
+export const LAST_FM_USER = 'aidanr';
+export const LAST_FM_API_KEY = 'a51091214ef940a0063881459f767982';
 
 export const METHOD_TOP_ALBUMS = 'user.gettopalbums';
 export const METHOD_TOP_TRACKS = 'user.gettoptracks';
