@@ -7,7 +7,7 @@ const footer = (props) => (
     <div className={["row", classes.Footer].join(" ")}>
 
         <div>
-            <div className="x">powered by AudioScrobbler from <a href="http://www.last.fm/" target="_top">
+            <div className="x">powered by Scrobbles from <a href="http://www.last.fm/" target="_top">
                 <img src={lastFmImage} alt="Last fm logo" /></a>
             </div>
             <div className="y">code available on <a href="https://github.com/aidanwhiteley/lastfmdata-react" target="_top">
