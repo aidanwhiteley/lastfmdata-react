@@ -2,6 +2,9 @@
 
 A work in progress to re-implement an SPA display of LastFm "scrobble" data using React. 
 
+[![Build Status](https://travis-ci.org/aidanwhiteley/lastfmdata-react.svg?branch=master)](https://travis-ci.org/aidanwhiteley/lastfmdata-react)
+[![Lighthouse](https://rawgit.com/emazzotta/lighthouse-badges/master/assets/img/scores/lighthouse.svg)](https://github.com/aidanwhiteley/lighthouse-badges)
+
 A deployment of the current code is usually available at https://music.aidanwhiteley.com/
 
 The source code for a  previous version using AngularJS is available at https://github.com/aidanwhiteley/lastfmdata.
