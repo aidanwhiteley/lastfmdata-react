@@ -6,7 +6,7 @@ import RecentTracksView from '../RecentTracksView/RecentTracksView';
 import PopularTracksView from '../PopularTracksView/PopularTracksView';
 
 const pagePartialsContainer = (props) => (
-    <div className={classes.PagePartialsContainer}>
+    <div id="maincontent" className={classes.PagePartialsContainer}>
         <Switch>
             <Route mame="albums" path="/albums" component={AlbumsView} />
             <Route path="/recentTracks" component={RecentTracksView} />

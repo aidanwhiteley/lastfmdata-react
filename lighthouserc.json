@@ -10,7 +10,7 @@
                     "minScore": 0.95
                 }],
                 "categories:accessibility": ["warn", {
-                    "minScore": 0.85
+                    "minScore": 0.75
                 }],
                 "categories:best-practices": ["warn", {
                     "minScore": 0.90
