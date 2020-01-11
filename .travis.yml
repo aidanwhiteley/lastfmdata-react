@@ -11,4 +11,4 @@ before_install:
 script:
   - npm test
   - npm run build
-  - lhci autorun # run lighthouse CI
+  - lhci autorun --upload.target=temporary-public-storage # run lighthouse CI
