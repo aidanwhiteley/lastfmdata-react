@@ -14,6 +14,9 @@ class AlbumsView extends Component {
         isLoading: false
     }
 
+    CancelToken = axios.CancelToken;
+    source = this.CancelToken.source();
+
     smallDeviceImageOffset = window.screen.width < 500 ? 1 : 0;
 
     whichAlbumImage = (anAlbum) => {
@@ -32,9 +35,10 @@ class AlbumsView extends Component {
     }
 
     componentDidMount() {
+
         this.setState({ isLoading: true });
 
-        axios.request(axiosConfig(Constants.METHOD_TOP_ALBUMS, 20))
+        axios.request(axiosConfig(Constants.METHOD_TOP_ALBUMS, 20), {cancelToken: this.source.Token})
             .then(response => {
 
                 // Map data into easier to use format
@@ -56,6 +60,10 @@ class AlbumsView extends Component {
                 // Handling the error should be done in withAxiosErrorHandler
                 this.setState({ isLoading: false });
             });
+    }
+
+    componentWillUnmount() {
+        this.source.cancel('Operation canceled by unmount method');
     }
 
     render() {
