@@ -10,6 +10,8 @@ const withAxiosErrorHandler = (WrappedComponent, axios) => {
             userOrKeyNotEdited: false
         }
 
+        _isMounted = false;
+
         constructor(props) {
             super(props);
 
@@ -17,9 +19,11 @@ const withAxiosErrorHandler = (WrappedComponent, axios) => {
             var that = this;
 
             this.reqInterceptor = axios.interceptors.request.use(function (config) {
-                that.setState({ error: null, userOrKeyNotEdited: false });
-                if (config.params && (config.params.api_key === 'xxx' || config.params.user === 'xxx')) {
-                    that.setState({ userOrKeyNotEdited: true });
+                if (that._isMounted) {
+                    that.setState({ error: null, userOrKeyNotEdited: false });
+                    if (config.params && (config.params.api_key === 'xxx' || config.params.user === 'xxx')) {
+                        that.setState({ userOrKeyNotEdited: true });
+                    }
                 }
                 return config;
             });
@@ -27,18 +31,25 @@ const withAxiosErrorHandler = (WrappedComponent, axios) => {
             this.resInterceptor = axios.interceptors.response.use(res => {
                 return res;
             }, anError => {
-                let errMsg = '' + anError;
-                if (that.state.userOrKeyNotEdited) {
-                    errMsg = 'The default API and user key in LastFmDataAxiosService must be edited before use';
+                if (that._isMounted) {
+                    let errMsg = '' + anError;
+                    if (that.state.userOrKeyNotEdited) {
+                        errMsg = 'The default API and user key in LastFmDataAxiosService must be edited before use';
+                    }
+                    that.setState({ error: errMsg });
+                    return Promise.reject(anError);
                 }
-                that.setState({ error: errMsg });
-                return Promise.reject(anError);
             });
+        }
+
+        componentDidMount() {
+            this._isMounted = true;
         }
 
         componentWillUnmount() {
             axios.interceptors.request.eject(this.reqInterceptor);
             axios.interceptors.response.eject(this.resInterceptor);
+            this._isMounted = false;
         }
 
         errorConfirmedHandler = () => {
