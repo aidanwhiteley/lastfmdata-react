@@ -4,7 +4,7 @@ import withAxiosErrorHandler from '../../../services/withAxiosErrorHandler';
 import axiosConfig from '../../../services/LastFmDataAxiosService';
 import * as Constants from '../../../constants/appConstants';
 import ListOfAlbums from './ListOfAlbums/ListOfAlbums';
-import NoAlbumImageAvailable from '../../../assets/images/not-found.png';
+import NoAlbumImageAvailable from '../../../assets/images/not-found.jpg';
 import classes from './AlbumsView.module.css';
 
 class AlbumsView extends Component {
@@ -38,7 +38,7 @@ class AlbumsView extends Component {
 
         this.setState({ isLoading: true });
 
-        axios.request(axiosConfig(Constants.METHOD_TOP_ALBUMS, 20), {cancelToken: this.source.Token})
+        axios.request(axiosConfig(Constants.METHOD_TOP_ALBUMS, 20), { cancelToken: this.source.Token })
             .then(response => {
 
                 // Map data into easier to use format
@@ -63,6 +63,7 @@ class AlbumsView extends Component {
     }
 
     componentWillUnmount() {
+        // TODO - rework this - Travis build / test stills complains about possible memory leak
         this.source.cancel('Operation canceled by unmount method');
     }
 
