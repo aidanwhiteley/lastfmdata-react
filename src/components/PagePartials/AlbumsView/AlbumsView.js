@@ -13,7 +13,6 @@ import * as actionTypes from '../../../store/actions';
 class AlbumsView extends Component {
 
     state = {
-        topAlbums: null,
         isLoading: false
     }
 
@@ -21,21 +20,6 @@ class AlbumsView extends Component {
     source = this.CancelToken.source();
 
     smallDeviceImageOffset = window.screen.width < 500 ? 1 : 0;
-
-    whichAlbumImage = (anAlbum) => {
-        const countImageSlots = anAlbum.image.length;
-        // We expect 4 images per album - the slot name are in the array below just for info
-        if (countImageSlots !== ['small', 'medium', 'large', 'extralarge'].length) {
-            return NoAlbumImageAvailable;
-        } else {
-            const imageUrl = anAlbum.image[anAlbum.image.length - 1 - this.smallDeviceImageOffset]['#text'];
-            if (!imageUrl) {
-                return NoAlbumImageAvailable;
-            } else {
-                return imageUrl;
-            }
-        }
-    }
 
     componentDidMount() {
 
@@ -58,17 +42,15 @@ class AlbumsView extends Component {
                         }
                     });
 
-                    this.setState({ topAlbums: albums })
                     this.setState({ isLoading: false });
-
                     this.props.onAlbumDataRetrieved(albums);
-
                 }).catch(error => {
                     // Handling the error should be done in withAxiosErrorHandler
                     this.setState({ isLoading: false });
                 });
         } else {
-            console.log('Woo hoo - got state: ' + JSON.stringify(this.props.topAlbums));
+            // Data retrieved from Redux store
+            this.setState({ isLoading: false });
         }
     }
 
@@ -80,11 +62,26 @@ class AlbumsView extends Component {
     render() {
 
         let JSX = <div className={classes.Loader}>Loading...</div>
-        if (!this.state.isLoading && this.state.topAlbums) {
-            JSX = <ListOfAlbums albums={this.state.topAlbums} />
+        if (!this.state.isLoading && this.props.topAlbums) {
+            JSX = <ListOfAlbums albums={this.props.topAlbums} />
         }
 
         return (JSX);
+    }
+
+    whichAlbumImage = (anAlbum) => {
+        const countImageSlots = anAlbum.image.length;
+        // We expect 4 images per album - the slot name are in the array below just for info
+        if (countImageSlots !== ['small', 'medium', 'large', 'extralarge'].length) {
+            return NoAlbumImageAvailable;
+        } else {
+            const imageUrl = anAlbum.image[anAlbum.image.length - 1 - this.smallDeviceImageOffset]['#text'];
+            if (!imageUrl) {
+                return NoAlbumImageAvailable;
+            } else {
+                return imageUrl;
+            }
+        }
     }
 }
 
