@@ -1,4 +1,6 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
+
 import axios from 'axios';
 import withAxiosErrorHandler from '../../../services/withAxiosErrorHandler';
 import axiosConfig from '../../../services/LastFmDataAxiosService';
@@ -6,6 +8,7 @@ import * as Constants from '../../../constants/appConstants';
 import ListOfAlbums from './ListOfAlbums/ListOfAlbums';
 import NoAlbumImageAvailable from '../../../assets/images/not-found.jpg';
 import classes from './AlbumsView.module.css';
+import * as actionTypes from '../../../store/actions';
 
 class AlbumsView extends Component {
 
@@ -38,28 +41,35 @@ class AlbumsView extends Component {
 
         this.setState({ isLoading: true });
 
-        axios.request(axiosConfig(Constants.METHOD_TOP_ALBUMS, 20), { cancelToken: this.source.Token })
-            .then(response => {
+        if (!this.props.topAlbums) {
 
-                // Map data into easier to use format
-                const albums = response.data.topalbums.album.map(anAlbum => {
-                    return {
-                        artistName: anAlbum.artist.name,
-                        artistUrl: anAlbum.artist.url,
-                        albumName: anAlbum.name,
-                        albumUrl: anAlbum.url,
-                        albumPlayCount: anAlbum.playcount,
-                        albumImage: this.whichAlbumImage(anAlbum)
-                    }
+            axios.request(axiosConfig(Constants.METHOD_TOP_ALBUMS, 20), { cancelToken: this.source.Token })
+                .then(response => {
+
+                    // Map data into easier to use format
+                    const albums = response.data.topalbums.album.map(anAlbum => {
+                        return {
+                            artistName: anAlbum.artist.name,
+                            artistUrl: anAlbum.artist.url,
+                            albumName: anAlbum.name,
+                            albumUrl: anAlbum.url,
+                            albumPlayCount: anAlbum.playcount,
+                            albumImage: this.whichAlbumImage(anAlbum)
+                        }
+                    });
+
+                    this.setState({ topAlbums: albums })
+                    this.setState({ isLoading: false });
+
+                    this.props.onAlbumDataRetrieved(albums);
+
+                }).catch(error => {
+                    // Handling the error should be done in withAxiosErrorHandler
+                    this.setState({ isLoading: false });
                 });
-
-                this.setState({ topAlbums: albums })
-                this.setState({ isLoading: false });
-
-            }).catch(error => {
-                // Handling the error should be done in withAxiosErrorHandler
-                this.setState({ isLoading: false });
-            });
+        } else {
+            console.log('Woo hoo - got state: ' + JSON.stringify(this.props.topAlbums));
+        }
     }
 
     componentWillUnmount() {
@@ -78,4 +88,16 @@ class AlbumsView extends Component {
     }
 }
 
-export default withAxiosErrorHandler(AlbumsView, axios);
+const mapStateToProps = state => {
+    return {
+        topAlbums: state.topAlbums
+    };
+};
+
+const mapDispatchToProps = dispatch => {
+    return {
+        onAlbumDataRetrieved: (apiData) => dispatch({ type: actionTypes.STORE_TOP_ALBUMS_DATA, apiData: apiData })
+    }
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(withAxiosErrorHandler(AlbumsView, axios));
