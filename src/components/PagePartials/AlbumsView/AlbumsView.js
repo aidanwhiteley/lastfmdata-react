@@ -25,7 +25,7 @@ class AlbumsView extends Component {
 
         this.setState({ isLoading: true });
 
-        if (!this.props.topAlbums) {
+        if (!this.props.topAlbums || (new Date() - this.props.topAlbums.lastUpdate >= Constants.CACHE_TIMEOUT_MILLIS)) {
 
             axios.request(axiosConfig(Constants.METHOD_TOP_ALBUMS, 20), { cancelToken: this.source.Token })
                 .then(response => {
@@ -63,7 +63,7 @@ class AlbumsView extends Component {
 
         let JSX = <div className={classes.Loader}>Loading...</div>
         if (!this.state.isLoading && this.props.topAlbums) {
-            JSX = <ListOfAlbums albums={this.props.topAlbums} />
+            JSX = <ListOfAlbums albums={this.props.topAlbums.apiData} />
         }
 
         return (JSX);
