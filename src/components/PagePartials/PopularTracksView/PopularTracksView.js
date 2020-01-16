@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
 import axios from 'axios';
 import withAxiosErrorHandler from '../../../services/withAxiosErrorHandler';
 import axiosConfig from '../../../services/LastFmDataAxiosService';
@@ -7,33 +8,38 @@ import 'react-bootstrap-table-next/dist/react-bootstrap-table2.min.css';
 import BootstrapTable from 'react-bootstrap-table-next';
 import paginationFactory from 'react-bootstrap-table2-paginator';
 import classes from './PopularTracksView.module.css';
+import * as actionTypes from '../../../store/actions';
 
 class PopularTracksView extends Component {
 
     state = {
-        popularTracks: null,
         isLoading: false
     }
 
     componentDidMount() {
         this.setState({ isLoading: true });
 
-        axios.request(axiosConfig(Constants.METHOD_TOP_TRACKS, 50))
-            .then(response => {
-                this.setState({ popularTracks: response.data })
-                this.setState({ isLoading: false });
-            }).catch(error => {
-                // Handling the error should be done in withAxiosErrorHandler
-                this.setState({ isLoading: false });
-            });
+        if (!this.props.topTracks || (new Date() - this.props.topTracks.lastUpdate >= Constants.CACHE_TIMEOUT_MILLIS)) {
+            axios.request(axiosConfig(Constants.METHOD_TOP_TRACKS, 50))
+                .then(response => {
+                    this.props.onTopTracksDataRetrieved(response.data);
+                    this.setState({ isLoading: false });
+                }).catch(error => {
+                    // Handling the error should be done in withAxiosErrorHandler
+                    this.setState({ isLoading: false });
+                });
+        } else {
+            // Data retrieved from Redux store
+            this.setState({ isLoading: false });
+        }
     }
 
     render() {
 
         let JSX = <div className={classes.Loader}>Loading...</div>;
 
-        if (!this.state.isLoading && this.state.popularTracks) {
-            const popularTracks = this.state.popularTracks.toptracks.track;
+        if (!this.state.isLoading && this.props.topTracks) {
+            const popularTracks = this.props.topTracks.apiData.toptracks.track;
             const trackLinkFormatter = (cell, row) => (<a href={row.url}>{cell}</a>);
             const artistLinkFormatter = (cell, row) => (<a href={row.artist.url}>{cell}</a>);
             const CaptionElement = () => <h3
@@ -73,4 +79,16 @@ class PopularTracksView extends Component {
     }
 }
 
-export default withAxiosErrorHandler(PopularTracksView, axios);
+const mapStateToProps = state => {
+    return {
+        topTracks: state.topTracks
+    };
+};
+
+const mapDispatchToProps = dispatch => {
+    return {
+        onTopTracksDataRetrieved: (apiData) => dispatch({ type: actionTypes.STORE_TOP_TRACKS_DATA, apiData: apiData })
+    }
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(withAxiosErrorHandler(PopularTracksView, axios));
