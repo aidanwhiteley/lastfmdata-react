@@ -34,6 +34,15 @@ class PopularTracksView extends Component {
         }
     }
 
+    numericSortFunc(a, b, order) {
+
+        if (order === 'asc') {
+          return Number(b) - Number(a);
+        } else {
+          return Number(a) - Number(b);
+        }
+    }
+
     render() {
 
         let JSX = <div className={classes.Loader}>Loading...</div>;
@@ -49,6 +58,7 @@ class PopularTracksView extends Component {
             const columns = [{
                 dataField: 'playcount',
                 text: 'Play count',
+                sortFunc: this.numericSortFunc,
                 sort: true
             }, {
                 dataField: 'name',
