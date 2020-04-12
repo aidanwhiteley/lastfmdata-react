@@ -6,10 +6,13 @@ import Footer from '../Footer/Footer';
 
 const layout = (props) => (
     <Fragment>
-        <Toolbar />
-        <SideDrawer />
-        <PagePartialsContainer />
-        <Footer />
+        <div id="outer-container">
+            <Toolbar />
+            <div id="page-wrap" className="container">
+                <PagePartialsContainer />
+                <Footer />
+            </div>
+        </div>
     </Fragment>
 );
 

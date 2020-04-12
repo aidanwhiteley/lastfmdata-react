@@ -1,6 +1,8 @@
 import React from 'react';
 import classes from './NavigationItems.module.css';
+import './burger-menu.css';
 import NavigationItem from './NavigationItem/NavigationItem';
+import { pushRotate as Menu } from 'react-burger-menu';
 
 const navigationData = [
     { id: 1, name: 'albums', displayName: 'Most listened to albums', route: '/albums' },
@@ -15,9 +17,11 @@ const navigationItems = (props) => {
     });
 
     return (
-        <ul className={classes.NavLocal}>
-            {navDataItems}
-        </ul>
+        <Menu pageWrapId={"page-wrap"} outerContainerId={"outer-container"}>
+            <nav>
+                {navDataItems}
+            </nav>
+        </Menu>
     );
 };
 
