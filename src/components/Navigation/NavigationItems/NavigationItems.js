@@ -1,13 +1,13 @@
 import React from 'react';
-import classes from './NavigationItems.module.css';
 import './burger-menu.css';
 import NavigationItem from './NavigationItem/NavigationItem';
-import { scaleDown as Menu } from 'react-burger-menu';
+import { scaleRotate as Menu } from 'react-burger-menu';
+import { faPlayCircle, faMusic, faVolumeUp } from '@fortawesome/free-solid-svg-icons';
 
 const navigationData = [
-    { id: 1, name: 'albums', displayName: 'Most listened to albums', route: '/albums' },
-    { id: 2, name: 'recentTracks', displayName: 'Recently played tracks', route: '/recentTracks' },
-    { id: 3, name: 'popularTracks', displayName: 'Most played tracks', route: '/popularTracks' }
+    { id: 1, name: 'albums', displayName: 'Top albums', route: '/albums', icon: faMusic },
+    { id: 2, name: 'recentTracks', displayName: 'Recent tracks', route: '/recentTracks', icon: faPlayCircle },
+    { id: 3, name: 'popularTracks', displayName: 'Top tracks', route: '/popularTracks', icon: faVolumeUp }
 ];
 
 class NavigationItems extends React.Component {
