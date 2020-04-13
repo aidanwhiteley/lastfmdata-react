@@ -4,7 +4,7 @@ import { NavLink } from 'react-router-dom';
 
 const navigationItem = (props) => {
     return (
-        <NavLink to={props.route} exact activeClassName="myActive">{props.displayName}</NavLink>
+        <NavLink onClick={props.closeMenu()} className="bm-item" to={props.route} exact activeClassName="myActive">{props.displayName}</NavLink>
     );
 };
 
