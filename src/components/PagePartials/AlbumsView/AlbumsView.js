@@ -93,7 +93,8 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
     return {
-        onAlbumDataRetrieved: (apiData) => dispatch({ type: actionTypes.STORE_TOP_ALBUMS_DATA, apiData: apiData })
+        onAlbumDataRetrieved: (apiData) => 
+            dispatch({ type: actionTypes.STORE_TOP_ALBUMS_DATA, apiData: apiData })
     }
 };
 

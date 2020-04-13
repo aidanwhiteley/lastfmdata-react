@@ -9,7 +9,7 @@ const pagePartialsContainer = (props) => (
     <div id="maincontent" className={classes.PagePartialsContainer}>
         <div className="row">
             <Switch>
-                <Route mame="albums" path="/albums" component={AlbumsView} />
+                <Route name="albums" path="/albums" component={AlbumsView} />
                 <Route path="/recentTracks" component={RecentTracksView} />
                 <Route path="/popularTracks" component={PopularTracksView} />
                 <Redirect exact from="/" to="albums" />
