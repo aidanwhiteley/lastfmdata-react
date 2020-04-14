@@ -7,12 +7,14 @@ import PopularTracksView from '../PopularTracksView/PopularTracksView';
 
 const pagePartialsContainer = (props) => (
     <div id="maincontent" className={classes.PagePartialsContainer}>
-        <Switch>
-            <Route mame="albums" path="/albums" component={AlbumsView} />
-            <Route path="/recentTracks" component={RecentTracksView} />
-            <Route path="/popularTracks" component={PopularTracksView} />
-            <Redirect exact from="/" to="albums" />
-        </Switch>
+        <div className="row">
+            <Switch>
+                <Route name="albums" path="/albums" component={AlbumsView} />
+                <Route path="/recentTracks" component={RecentTracksView} />
+                <Route path="/popularTracks" component={PopularTracksView} />
+                <Redirect exact from="/" to="albums" />
+            </Switch>
+        </div>
     </div>
 );
 
