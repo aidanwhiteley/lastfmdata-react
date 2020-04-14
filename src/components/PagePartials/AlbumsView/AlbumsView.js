@@ -8,6 +8,7 @@ import ListOfAlbums from './ListOfAlbums/ListOfAlbums';
 import NoAlbumImageAvailable from '../../../assets/images/not-found.jpg';
 import classes from './AlbumsView.module.css';
 import { storeTopAlbums } from '../../../store/apiDataSlice';
+import queryString from 'query-string'
 
 const mapDispatch = { storeTopAlbums };
 
@@ -23,6 +24,9 @@ class AlbumsView extends Component {
     smallDeviceImageOffset = window.screen.width < 500 ? 1 : 0;
 
     componentDidMount() {
+
+        const values = queryString.parse(this.props.location.search);
+        console.log(values.period)
 
         this.setState({ isLoading: true });
 
