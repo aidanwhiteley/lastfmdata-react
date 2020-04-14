@@ -9,7 +9,9 @@ import BootstrapTable from 'react-bootstrap-table-next';
 import paginationFactory from 'react-bootstrap-table2-paginator';
 import 'react-bootstrap-table2-paginator/dist/react-bootstrap-table2-paginator.min.css';
 import classes from './RecentTracksView.module.css';
-import * as actionTypes from '../../../store/actions';
+import { storeRecentTracks } from '../../../store/apiDataSlice';
+
+const mapDispatch = { storeRecentTracks };
 
 class RecentTracksView extends Component {
 
@@ -33,7 +35,7 @@ class RecentTracksView extends Component {
                         }
                     })
 
-                    this.props.onRecentTracksDataRetrieved(tracks);
+                    this.props.storeRecentTracks({ apiData: tracks, lastUpdate: (new Date().getTime()) });
                     this.setState({ isLoading: false });
                 }).catch(error => {
                     // Handling the error should be done in withAxiosErrorHandler
@@ -99,10 +101,5 @@ const mapStateToProps = state => {
     };
 };
 
-const mapDispatchToProps = dispatch => {
-    return {
-        onRecentTracksDataRetrieved: (apiData) => dispatch({ type: actionTypes.STORE_RECENT_TRACKS_DATA, apiData: apiData })
-    }
-};
 
-export default connect(mapStateToProps, mapDispatchToProps)(withAxiosErrorHandler(RecentTracksView, axios));
+export default connect(mapStateToProps, mapDispatch)(withAxiosErrorHandler(RecentTracksView, axios));

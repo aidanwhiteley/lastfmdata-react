@@ -3,15 +3,17 @@ import 'react-app-polyfill/stable';
 
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { createStore } from 'redux';
+import { configureStore } from "@reduxjs/toolkit";
 import { Provider } from 'react-redux';
 
 import './index.css';
 import App from './App';
 import * as serviceWorker from './serviceWorker';
-import reducer from './store/reducer';
+import apiReducer from './store/apiDataSlice';
 
-const store = createStore(reducer);
+const store = configureStore({
+    reducer: apiReducer
+});
 
 ReactDOM.render(<Provider store={store}><App /></Provider>, document.getElementById('root'));
 

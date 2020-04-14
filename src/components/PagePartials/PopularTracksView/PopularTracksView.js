@@ -8,7 +8,9 @@ import 'react-bootstrap-table-next/dist/react-bootstrap-table2.min.css';
 import BootstrapTable from 'react-bootstrap-table-next';
 import paginationFactory from 'react-bootstrap-table2-paginator';
 import classes from './PopularTracksView.module.css';
-import * as actionTypes from '../../../store/actions';
+import { storeTopTracks } from '../../../store/apiDataSlice';
+
+const mapDispatch = { storeTopTracks };
 
 class PopularTracksView extends Component {
 
@@ -22,7 +24,7 @@ class PopularTracksView extends Component {
         if (!this.props.topTracks || (new Date() - this.props.topTracks.lastUpdate >= Constants.CACHE_TIMEOUT_MILLIS)) {
             axios.request(axiosConfig(Constants.METHOD_TOP_TRACKS, 50))
                 .then(response => {
-                    this.props.onTopTracksDataRetrieved(response.data);
+                    this.props.storeTopTracks({ apiData: response.data, lastUpdate: (new Date().getTime()) });
                     this.setState({ isLoading: false });
                 }).catch(error => {
                     // Handling the error should be done in withAxiosErrorHandler
@@ -37,9 +39,9 @@ class PopularTracksView extends Component {
     numericSortFunc(a, b, order) {
 
         if (order === 'asc') {
-          return Number(b) - Number(a);
+            return Number(b) - Number(a);
         } else {
-          return Number(a) - Number(b);
+            return Number(a) - Number(b);
         }
     }
 
@@ -95,10 +97,4 @@ const mapStateToProps = state => {
     };
 };
 
-const mapDispatchToProps = dispatch => {
-    return {
-        onTopTracksDataRetrieved: (apiData) => dispatch({ type: actionTypes.STORE_TOP_TRACKS_DATA, apiData: apiData })
-    }
-};
-
-export default connect(mapStateToProps, mapDispatchToProps)(withAxiosErrorHandler(PopularTracksView, axios));
+export default connect(mapStateToProps, mapDispatch)(withAxiosErrorHandler(PopularTracksView, axios));

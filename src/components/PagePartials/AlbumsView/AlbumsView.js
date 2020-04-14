@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-
 import axios from 'axios';
 import withAxiosErrorHandler from '../../../services/withAxiosErrorHandler';
 import axiosConfig from '../../../services/LastFmDataAxiosService';
@@ -8,7 +7,9 @@ import * as Constants from '../../../constants/appConstants';
 import ListOfAlbums from './ListOfAlbums/ListOfAlbums';
 import NoAlbumImageAvailable from '../../../assets/images/not-found.jpg';
 import classes from './AlbumsView.module.css';
-import * as actionTypes from '../../../store/actions';
+import { storeTopAlbums } from '../../../store/apiDataSlice';
+
+const mapDispatch = { storeTopAlbums };
 
 class AlbumsView extends Component {
 
@@ -25,7 +26,7 @@ class AlbumsView extends Component {
 
         this.setState({ isLoading: true });
 
-        if (!this.props.topAlbums || (new Date() - this.props.topAlbums.lastUpdate >= Constants.CACHE_TIMEOUT_MILLIS)) {
+        if (!this.props.topAlbums || ((new Date()).getTime() - this.props.topAlbums.lastUpdate >= Constants.CACHE_TIMEOUT_MILLIS)) {
 
             axios.request(axiosConfig(Constants.METHOD_TOP_ALBUMS, 20), { cancelToken: this.source.Token })
                 .then(response => {
@@ -43,7 +44,7 @@ class AlbumsView extends Component {
                     });
 
                     this.setState({ isLoading: false });
-                    this.props.onAlbumDataRetrieved(albums);
+                    this.props.storeTopAlbums({ apiData: albums, lastUpdate: (new Date().getTime()) });
                 }).catch(error => {
                     // Handling the error should be done in withAxiosErrorHandler
                     this.setState({ isLoading: false });
@@ -91,11 +92,5 @@ const mapStateToProps = state => {
     };
 };
 
-const mapDispatchToProps = dispatch => {
-    return {
-        onAlbumDataRetrieved: (apiData) => 
-            dispatch({ type: actionTypes.STORE_TOP_ALBUMS_DATA, apiData: apiData })
-    }
-};
 
-export default connect(mapStateToProps, mapDispatchToProps)(withAxiosErrorHandler(AlbumsView, axios));
+export default connect(mapStateToProps, mapDispatch)(withAxiosErrorHandler(AlbumsView, axios));
