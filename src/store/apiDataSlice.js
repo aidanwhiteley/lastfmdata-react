@@ -3,23 +3,21 @@ import { createSlice } from '@reduxjs/toolkit';
 const apiDataSlice = createSlice({
     name: 'apiData',
     initialState: {
-        topAlbums: null,
+        topAlbums: [],
         recentTracks: null,
         topTracks: null
     },
     reducers: {
         storeTopAlbums(state, action) {
-            const { apiData, lastUpdate } = action.payload;
+            const { apiData, lastUpdate, timePeriod } = action.payload;
 
-            //const albums = state.find(album => album.period === action.payload.period)
-            //if (album) {
-            //    album.apiData = apiData;
-            //    album.lastUpdate = lastUpdate;
-            //} else {
-            //    state.topAlbums.push({ apiData: apiData, lastUpdate: lastUpdate, period: period });
-            //}
-
-            state.topAlbums = { apiData: apiData, lastUpdate: lastUpdate }
+            const anAlbumSet = state.topAlbums.find(albumSet => albumSet.timePeriod === timePeriod)
+            if (anAlbumSet) {
+                anAlbumSet.apiData = apiData;
+                anAlbumSet.lastUpdate = lastUpdate;
+            } else {
+                state.topAlbums.push({ apiData: apiData, lastUpdate: lastUpdate, timePeriod: timePeriod });
+            }
         },
         storeRecentTracks(state, action) {
             const { apiData, lastUpdate } = action.payload;

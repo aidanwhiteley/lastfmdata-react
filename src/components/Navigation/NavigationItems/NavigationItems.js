@@ -5,9 +5,9 @@ import { scaleRotate as Menu } from 'react-burger-menu';
 import { faPlayCircle, faMusic, faVolumeUp } from '@fortawesome/free-solid-svg-icons';
 
 const navigationData = [
-    { id: 1, name: 'albums', displayName: 'Top albums', route: '/albums', icon: faMusic },
-    { id: 2, name: 'recentTracks', displayName: 'Recent tracks', route: '/recentTracks', icon: faPlayCircle },
-    { id: 3, name: 'popularTracks', displayName: 'Top tracks', route: '/popularTracks', icon: faVolumeUp }
+    { id: 1, name: 'albums', displayName: 'Top albums', route: '/albums', timePeriodChildren: true, icon: faMusic },
+    { id: 2, name: 'popularTracks', displayName: 'Top tracks', route: '/popularTracks', timePeriodChildren: true, icon: faVolumeUp },
+    { id: 3, name: 'recentTracks', displayName: 'Recent tracks', route: '/recentTracks', timePeriodChildren: false, icon: faPlayCircle }
 ];
 
 class NavigationItems extends React.Component {
