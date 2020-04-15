@@ -5,7 +5,7 @@ const apiDataSlice = createSlice({
     initialState: {
         topAlbums: [],
         recentTracks: null,
-        topTracks: null
+        topTracks: []
     },
     reducers: {
         storeTopAlbums(state, action) {
@@ -24,8 +24,15 @@ const apiDataSlice = createSlice({
             state.recentTracks = { apiData: apiData, lastUpdate: lastUpdate }
         },
         storeTopTracks(state, action) {
-            const { apiData, lastUpdate } = action.payload;
-            state.topTracks = { apiData: apiData, lastUpdate: lastUpdate }
+            const { apiData, lastUpdate, timePeriod } = action.payload;
+
+            const topTracks = state.topTracks.find(topTracks => topTracks.timePeriod === timePeriod)
+            if (topTracks) {
+                topTracks.apiData = apiData;
+                topTracks.lastUpdate = lastUpdate;
+            } else {
+                state.topTracks.push({ apiData: apiData, lastUpdate: lastUpdate, timePeriod: timePeriod });
+            }
         }
     }
 

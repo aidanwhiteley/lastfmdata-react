@@ -24,4 +24,4 @@ export const TIME_PERIOD_12_MONTHS = '12month';
 export const TIME_PERIOD_OVERALL = 'overall';
 
 // How long in milliseconds do we cache API data from LastFM - reduce unnecessary load
-export const CACHE_TIMEOUT_MILLIS = 60000;
+export const CACHE_TIMEOUT_MILLIS = 120000;
