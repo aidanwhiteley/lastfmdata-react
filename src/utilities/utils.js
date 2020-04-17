@@ -1,6 +1,6 @@
 import * as Constants from '../constants/appConstants';
 
-export function validateTimePeriod(incomingTimePeriod) {
+export const validateTimePeriod = (incomingTimePeriod) => {
     let timePeriod = Constants.TIME_PERIOD_OVERALL;
 
     if (incomingTimePeriod) {
@@ -14,4 +14,4 @@ export function validateTimePeriod(incomingTimePeriod) {
     }
 
     return timePeriod;
-}
+};

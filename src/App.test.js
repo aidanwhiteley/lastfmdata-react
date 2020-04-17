@@ -10,7 +10,10 @@ const store = configureStore({
 });
 
 test('renders code available text', () => {
-  const { getByText } = render(<Provider store={store}><App /></Provider>);
+  const { getByText } = render(
+    <Provider store={store}>
+      <App />
+    </Provider>);
   const linkElement = getByText(/code available /i);
   expect(linkElement).toBeInTheDocument();
 });
