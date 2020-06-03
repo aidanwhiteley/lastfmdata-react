@@ -100,8 +100,8 @@ class PopularTracksView extends Component {
 
         if (!this.state.isLoading && topTracks) {
             const popularTracks = topTracks.apiData.toptracks.track;
-            const trackLinkFormatter = (cell, row) => (<a href={row.url}>{cell}</a>);
-            const artistLinkFormatter = (cell, row) => (<a href={row.artist.url}>{cell}</a>);
+            const trackLinkFormatter = (cell, row) => (<a href={row.url} target="_top">{cell}</a>);
+            const artistLinkFormatter = (cell, row) => (<a href={row.artist.url} target="_top">{cell}</a>);
             const CaptionElement = () => <h3
                 style={{ borderRadius: '0.25em', textAlign: 'center', color: 'purple', border: '1px solid purple', padding: '0.5em' }}>
                 Most played tracks</h3>;

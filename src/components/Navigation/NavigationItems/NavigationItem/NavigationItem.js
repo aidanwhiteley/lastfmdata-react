@@ -15,16 +15,16 @@ const navigationItem = (props) => {
 
             {props.timePeriodChildren ? (
                 <Fragment>
-                    <NavLink onClick={props.closeMenu()} className="bm-item" to={{ pathname: props.route + '/' + Constants.TIME_PERIOD_OVERALL }} exact activeClassName="myActive">
+                    <NavLink onClick={props.closeMenu()} className="bm-item" to={{ pathname: props.route + '/' + Constants.TIME_PERIOD_OVERALL + '/?limit=' + props.limit}} exact activeClassName="myActive">
                         <span className={classes.NavigationSubItem}>- All time</span>
                     </NavLink>
-                    <NavLink onClick={props.closeMenu()} className="bm-item" to={{ pathname: props.route + '/' + Constants.TIME_PERIOD_6_MONTHS }} exact activeClassName="myActive">
+                    <NavLink onClick={props.closeMenu()} className="bm-item" to={{ pathname: props.route + '/' + Constants.TIME_PERIOD_6_MONTHS + '/?limit=' + props.limit}} exact activeClassName="myActive">
                         <span className={classes.NavigationSubItem}>- Last 6 months</span>
                     </NavLink>
-                    <NavLink onClick={props.closeMenu()} className="bm-item" to={{ pathname: props.route + '/' + Constants.TIME_PERIOD_1_MONTH }} exact activeClassName="myActive">
+                    <NavLink onClick={props.closeMenu()} className="bm-item" to={{ pathname: props.route + '/' + Constants.TIME_PERIOD_1_MONTH + '/?limit=' + props.limit}} exact activeClassName="myActive">
                         <span className={classes.NavigationSubItem}>- Last 1 month</span>
                     </NavLink>
-                    <NavLink onClick={props.closeMenu()} className="bm-item" to={{ pathname: props.route + '/' + Constants.TIME_PERIOD_7_DAYS }} exact activeClassName="myActive">
+                    <NavLink onClick={props.closeMenu()} className="bm-item" to={{ pathname: props.route + '/' + Constants.TIME_PERIOD_7_DAYS + '/?limit=' + props.limit}} exact activeClassName="myActive">
                         <span className={classes.NavigationSubItem}>- Last 7 days</span>
                     </NavLink>
                 </Fragment>

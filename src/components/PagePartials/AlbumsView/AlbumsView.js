@@ -79,7 +79,11 @@ class AlbumsView extends Component {
     getRemoteData(timePeriod) {
         this.setState({ isLoading: true });
 
-        axios.request(axiosConfig(Constants.METHOD_TOP_ALBUMS, 20, timePeriod), { cancelToken: this.source.Token })
+        const search = window.location.search;
+        const params = new URLSearchParams(search);
+        const limit = params.get('limit') ? params.get('limit') : 16;
+
+        axios.request(axiosConfig(Constants.METHOD_TOP_ALBUMS, limit, timePeriod), { cancelToken: this.source.Token })
             .then(response => {
 
                 // Map data into easier to use format

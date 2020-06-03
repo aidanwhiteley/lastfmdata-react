@@ -14,12 +14,19 @@ class NavigationItems extends React.Component {
 
     constructor(props) {
         super(props)
+
+        const search = window.location.search;
+        const params = new URLSearchParams(search);
+        const limit = params.get('limit') ? params.get('limit') : 16;
+
         this.state = {
-            menuOpen: false
+            menuOpen: false,
+            limitParam: limit
         }
 
         this.handleStateChange = this.handleStateChange.bind(this);
         this.closeMenu = this.closeMenu.bind(this);
+        console.log('In nav items constructor');
     }
 
     // See https://github.com/negomi/react-burger-menu/wiki/FAQ#i-want-to-control-the-open-state-programmatically-but-i-dont-understand-how-to-use-the-isopen-prop
@@ -36,7 +43,7 @@ class NavigationItems extends React.Component {
 
     render() {
         const navDataItems = navigationData.map(navDataItem => {
-            return <NavigationItem closeMenu={() => this.closeMenu} key={navDataItem.id} {...navDataItem} />
+            return <NavigationItem closeMenu={() => this.closeMenu} key={navDataItem.id} limit={this.state.limitParam} {...navDataItem} />
         });
 
         return (
