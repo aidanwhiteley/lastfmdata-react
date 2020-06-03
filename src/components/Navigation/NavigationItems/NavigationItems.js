@@ -26,7 +26,6 @@ class NavigationItems extends React.Component {
 
         this.handleStateChange = this.handleStateChange.bind(this);
         this.closeMenu = this.closeMenu.bind(this);
-        console.log('In nav items constructor');
     }
 
     // See https://github.com/negomi/react-burger-menu/wiki/FAQ#i-want-to-control-the-open-state-programmatically-but-i-dont-understand-how-to-use-the-isopen-prop
