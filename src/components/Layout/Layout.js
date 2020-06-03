@@ -8,7 +8,7 @@ const layout = (props) => (
     <Fragment>
         <div id="outer-container">
             <Toolbar />
-            <div id="page-wrap" className="container">
+            <div id="page-wrap" className="mycontainer">
                 <PagePartialsContainer />
                 <Footer />
             </div>
