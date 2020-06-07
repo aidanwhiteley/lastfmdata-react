@@ -1,3 +1,7 @@
 .NavigationItem {
     padding-left: 15px;
 }
+
+.NavigationSubItem {
+    padding-left: 45px;
+}

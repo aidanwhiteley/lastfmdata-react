@@ -5,12 +5,10 @@ import * as Constants from '../constants/appConstants';
 // However, there is a bug in the current (v0.19) version of axios that 
 // meant it wasn't possible to merge instance params with those supplied by the caller.
 // That bug has been open for a while which meant we were having to use v0.18.
-// So this now just provides a copy of the required config with the caller
-// required to pass in the "method" to be called on the LastFM API and the 
-// required number of objects to be returned.
-const lastFmDataService = (method, limit) => {
+// So this now just provides a copy of the required config.
+const lastFmDataService = (method, limit, timePeriod) => {
 
-    const getLastFmConfigInstance = (method, limit) => {
+    const getLastFmConfigInstance = (method, limit, timePeriod) => {
         const instance = {
             baseURL: 'https://ws.audioscrobbler.com',
             url: '/2.0/?',
@@ -22,7 +20,7 @@ const lastFmDataService = (method, limit) => {
                 user: Constants.LAST_FM_USER,
                 api_key: Constants.LAST_FM_API_KEY,
                 format: 'json',
-                period: 'overall'
+                period: ''
             },
         }
 
@@ -32,6 +30,7 @@ const lastFmDataService = (method, limit) => {
 
         copy.params.method = method;
         copy.params.limit = limit;
+        copy.params.period = timePeriod;
 
         return copy;
     }
@@ -49,7 +48,7 @@ const lastFmDataService = (method, limit) => {
         }
     }
 
-    return Constants.DEV_MODE ? getStubDataConfig(method) : getLastFmConfigInstance(method, limit);
+    return Constants.DEV_MODE ? getStubDataConfig(method) : getLastFmConfigInstance(method, limit, timePeriod);
 }
 
 export default lastFmDataService;

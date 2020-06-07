@@ -5,17 +5,23 @@ import { scaleRotate as Menu } from 'react-burger-menu';
 import { faPlayCircle, faMusic, faVolumeUp } from '@fortawesome/free-solid-svg-icons';
 
 const navigationData = [
-    { id: 1, name: 'albums', displayName: 'Top albums', route: '/albums', icon: faMusic },
-    { id: 2, name: 'recentTracks', displayName: 'Recent tracks', route: '/recentTracks', icon: faPlayCircle },
-    { id: 3, name: 'popularTracks', displayName: 'Top tracks', route: '/popularTracks', icon: faVolumeUp }
+    { id: 1, name: 'albums', displayName: 'Top albums', route: '/albums', timePeriodChildren: true, icon: faMusic },
+    { id: 2, name: 'popularTracks', displayName: 'Top tracks', route: '/popularTracks', timePeriodChildren: true, icon: faVolumeUp },
+    { id: 3, name: 'recentTracks', displayName: 'Recent tracks', route: '/recentTracks', timePeriodChildren: false, icon: faPlayCircle }
 ];
 
 class NavigationItems extends React.Component {
 
     constructor(props) {
         super(props)
+
+        const search = window.location.search;
+        const params = new URLSearchParams(search);
+        const limit = params.get('limit') ? params.get('limit') : 16;
+
         this.state = {
-            menuOpen: false
+            menuOpen: false,
+            limitParam: limit
         }
 
         this.handleStateChange = this.handleStateChange.bind(this);
@@ -36,7 +42,7 @@ class NavigationItems extends React.Component {
 
     render() {
         const navDataItems = navigationData.map(navDataItem => {
-            return <NavigationItem closeMenu={() => this.closeMenu} key={navDataItem.id} {...navDataItem} />
+            return <NavigationItem closeMenu={() => this.closeMenu} key={navDataItem.id} limit={this.state.limitParam} {...navDataItem} />
         });
 
         return (

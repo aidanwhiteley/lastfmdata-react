@@ -1,9 +1,9 @@
 // Set this to true to return stubbed data and avoid calling the real LastFM APIs
-export const DEV_MODE = true;
+export const DEV_MODE = false;
 
 // Enter you LastFM user name and API key below
-export const LAST_FM_USER = 'xxx';
-export const LAST_FM_API_KEY = 'xxx';
+export const LAST_FM_USER = '';
+export const LAST_FM_API_KEY = '';
 
 // =============== Shouldnt need to edit entries below here =====================
 
@@ -24,4 +24,4 @@ export const TIME_PERIOD_12_MONTHS = '12month';
 export const TIME_PERIOD_OVERALL = 'overall';
 
 // How long in milliseconds do we cache API data from LastFM - reduce unnecessary load
-export const CACHE_TIMEOUT_MILLIS = 60000;
+export const CACHE_TIMEOUT_MILLIS = 120000;

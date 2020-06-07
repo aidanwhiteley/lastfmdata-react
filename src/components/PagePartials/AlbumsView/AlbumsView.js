@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-
 import axios from 'axios';
 import withAxiosErrorHandler from '../../../services/withAxiosErrorHandler';
 import axiosConfig from '../../../services/LastFmDataAxiosService';
@@ -8,50 +7,64 @@ import * as Constants from '../../../constants/appConstants';
 import ListOfAlbums from './ListOfAlbums/ListOfAlbums';
 import NoAlbumImageAvailable from '../../../assets/images/not-found.jpg';
 import classes from './AlbumsView.module.css';
-import * as actionTypes from '../../../store/actions';
+import { storeTopAlbums } from '../../../store/apiDataSlice';
+import { validateTimePeriod } from '../../../utilities/utils';
+
+const mapDispatch = { storeTopAlbums };
 
 class AlbumsView extends Component {
 
-    state = {
-        isLoading: false
+    constructor(props) {
+        super(props);
+        this.state = { isLoading: false };
+
+        this.CancelToken = axios.CancelToken;
+        this.source = this.CancelToken.source();
+        this.smallDeviceImageOffset = window.screen.width < 500 ? 1 : 0;
+
+        this.getData = this.getRemoteData.bind(this);
+        this.getTimePeriod = this.getTimePeriod.bind(this);
     }
-
-    CancelToken = axios.CancelToken;
-    source = this.CancelToken.source();
-
-    smallDeviceImageOffset = window.screen.width < 500 ? 1 : 0;
 
     componentDidMount() {
 
-        this.setState({ isLoading: true });
+        const timePeriod = this.getTimePeriod();
 
-        if (!this.props.topAlbums || (new Date() - this.props.topAlbums.lastUpdate >= Constants.CACHE_TIMEOUT_MILLIS)) {
-
-            axios.request(axiosConfig(Constants.METHOD_TOP_ALBUMS, 20), { cancelToken: this.source.Token })
-                .then(response => {
-
-                    // Map data into easier to use format
-                    const albums = response.data.topalbums.album.map(anAlbum => {
-                        return {
-                            artistName: anAlbum.artist.name,
-                            artistUrl: anAlbum.artist.url,
-                            albumName: anAlbum.name,
-                            albumUrl: anAlbum.url,
-                            albumPlayCount: anAlbum.playcount,
-                            albumImage: this.whichAlbumImage(anAlbum)
-                        }
-                    });
-
-                    this.setState({ isLoading: false });
-                    this.props.onAlbumDataRetrieved(albums);
-                }).catch(error => {
-                    // Handling the error should be done in withAxiosErrorHandler
-                    this.setState({ isLoading: false });
-                });
+        if (!this.existsStoredNonStaleData(timePeriod)) {
+            this.getRemoteData(timePeriod);
         } else {
             // Data retrieved from Redux store
-            this.setState({ isLoading: false });
         }
+    }
+
+    componentDidUpdate(prevProps) {
+
+        if (prevProps.match.params.timePeriod !== this.props.match.params.timePeriod) {
+            const timePeriod = this.getTimePeriod();
+            if (!this.existsStoredNonStaleData(timePeriod)) {
+                this.getRemoteData(timePeriod);
+            } else {
+                // Data retrieved from Redux store
+            }
+        }
+    }
+
+    existsStoredNonStaleData(timePeriod) {
+
+        if (!this.props.topAlbums) {
+            return false;
+        }
+
+        const albumSet = this.props.topAlbums.find(albumSet => albumSet.timePeriod === timePeriod)
+        if (!albumSet) {
+            return false;
+        }
+
+        if ((new Date()).getTime() - albumSet.lastUpdate >= Constants.CACHE_TIMEOUT_MILLIS) {
+            return false;
+        }
+
+        return true;
     }
 
     componentWillUnmount() {
@@ -59,11 +72,49 @@ class AlbumsView extends Component {
         this.source.cancel('Operation canceled by unmount method');
     }
 
+    getTimePeriod() {
+        return validateTimePeriod(this.props.match.params.timePeriod);
+    }
+
+    getRemoteData(timePeriod) {
+        this.setState({ isLoading: true });
+
+        const search = window.location.search;
+        const params = new URLSearchParams(search);
+        const limit = params.get('limit') ? params.get('limit') : 16;
+
+        axios.request(axiosConfig(Constants.METHOD_TOP_ALBUMS, limit, timePeriod), { cancelToken: this.source.Token })
+            .then(response => {
+
+                // Map data into easier to use format
+                const albums = response.data.topalbums.album.map(anAlbum => {
+                    return {
+                        artistName: anAlbum.artist.name,
+                        artistUrl: anAlbum.artist.url,
+                        albumName: anAlbum.name,
+                        albumUrl: anAlbum.url,
+                        albumPlayCount: anAlbum.playcount,
+                        albumImage: this.whichAlbumImage(anAlbum)
+                    }
+                });
+
+                this.setState({ isLoading: false });
+                this.props.storeTopAlbums({ apiData: albums, lastUpdate: (new Date().getTime()), timePeriod: timePeriod });
+            }).catch(error => {
+                // Handling the error should be done in withAxiosErrorHandler
+                this.setState({ isLoading: false });
+            });
+    }
+
     render() {
 
+        const timePeriod = this.getTimePeriod();
+        const albumSet = this.props.topAlbums.find(albumSet => albumSet.timePeriod === timePeriod);
+
         let JSX = <div className={classes.Loader}>Loading...</div>
-        if (!this.state.isLoading && this.props.topAlbums) {
-            JSX = <ListOfAlbums albums={this.props.topAlbums.apiData} />
+
+        if (!this.state.isLoading && albumSet) {
+            JSX = <ListOfAlbums albums={albumSet.apiData} />
         }
 
         return (JSX);
@@ -91,11 +142,5 @@ const mapStateToProps = state => {
     };
 };
 
-const mapDispatchToProps = dispatch => {
-    return {
-        onAlbumDataRetrieved: (apiData) => 
-            dispatch({ type: actionTypes.STORE_TOP_ALBUMS_DATA, apiData: apiData })
-    }
-};
 
-export default connect(mapStateToProps, mapDispatchToProps)(withAxiosErrorHandler(AlbumsView, axios));
+export default connect(mapStateToProps, mapDispatch)(withAxiosErrorHandler(AlbumsView, axios));

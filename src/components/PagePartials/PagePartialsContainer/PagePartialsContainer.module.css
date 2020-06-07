@@ -1,4 +1,12 @@
 .PagePartialsContainer {
     margin-top: 10px;
-    margin: 15px;
+    margin-left: 110px;
+    margin-right: 100px;
+}
+
+@media (max-width: 400px) {
+    .PagePartialsContainer {
+        margin-left: 70px;
+        margin-right: 50px;
+    }
 }
