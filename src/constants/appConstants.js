@@ -2,8 +2,8 @@
 export const DEV_MODE = false;
 
 // Enter you LastFM user name and API key below
-export const LAST_FM_USER = 'aidanr';
-export const LAST_FM_API_KEY = 'a51091214ef940a0063881459f767982';
+export const LAST_FM_USER = '';
+export const LAST_FM_API_KEY = '';
 
 // =============== Shouldnt need to edit entries below here =====================
 
