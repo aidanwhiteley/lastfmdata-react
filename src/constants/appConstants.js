@@ -1,5 +1,5 @@
 // Set this to true to return stubbed data and avoid calling the real LastFM APIs
-export const DEV_MODE = false;
+export const DEV_MODE = true;
 
 // Enter you LastFM user name and API key below
 export const LAST_FM_USER = '';
