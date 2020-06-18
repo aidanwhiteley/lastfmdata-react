@@ -27,7 +27,7 @@ class Album extends Component {
             <div className={className} onMouseOver={this.handleHover} onMouseOut={this.handleHover}>
                 <div className={styles.front}>
                     <div>
-                        <img src={this.props.albumImage} alt="An album" />
+                        <img src={this.props.albumImage} loading="lazy" alt="An album cover" />
                     </div>
                     <div className={styles.alpha}></div>
                 </div>
