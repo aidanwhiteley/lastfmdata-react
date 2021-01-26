@@ -2,7 +2,7 @@
 
 An SPA display of LastFm "scrobble" data using React.
 
-[![Actions CI Build](https://github.com/aidanwhiteley/lastfm-react/workflows/LastFM%20React%20CI/badge.svg)](https://github.com/aidanwhiteley/lastfmdata-react/actions?query=workflow%3A%22LastFM+React+CI%22)
+![LastFM React CI](https://github.com/aidanwhiteley/lastfmdata-react/workflows/LastFM%20React%20CI/badge.svg)
 
 A deployment of the current code is usually available at https://music.aidanwhiteley.com/
 
