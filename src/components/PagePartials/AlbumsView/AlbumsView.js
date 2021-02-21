@@ -81,7 +81,7 @@ class AlbumsView extends Component {
 
         const search = window.location.search;
         const params = new URLSearchParams(search);
-        const limit = params.get('limit') ? params.get('limit') : 16;
+        const limit = params.get('limit') ? params.get('limit') : 15;
 
         axios.request(axiosConfig(Constants.METHOD_TOP_ALBUMS, limit, timePeriod), { cancelToken: this.source.Token })
             .then(response => {
@@ -129,6 +129,8 @@ class AlbumsView extends Component {
             const imageUrl = anAlbum.image[anAlbum.image.length - 1 - this.smallDeviceImageOffset]['#text'];
             if (!imageUrl) {
                 return NoAlbumImageAvailable;
+            } else if (anAlbum.artist.name === 'Afro Celt Sound System') {      // Bug fix in LastFM data. An image URL is given but it 404s
+                return anAlbum.image[anAlbum.image.length - 2]['#text'];
             } else {
                 return imageUrl;
             }
