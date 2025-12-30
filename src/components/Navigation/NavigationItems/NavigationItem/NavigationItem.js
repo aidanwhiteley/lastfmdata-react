@@ -8,7 +8,7 @@ const navigationItem = (props) => {
 
     return (
         <Fragment>
-            <NavLink onClick={props.closeMenu()} className="bm-item" to={{ pathname: props.route + '/' + Constants.TIME_PERIOD_OVERALL }} exact activeClassName="myActive">
+            <NavLink onClick={props.closeMenu()} className="bm-item" to={{ pathname: props.route + '/' + Constants.TIME_PERIOD_12_MONTHS }} exact activeClassName="myActive">
                 <FontAwesomeIcon icon={props.icon} />
                 <span className={classes.NavigationItem}>{props.displayName}</span>
             </NavLink>
@@ -17,6 +17,9 @@ const navigationItem = (props) => {
                 <Fragment>
                     <NavLink onClick={props.closeMenu()} className="bm-item" to={{ pathname: props.route + '/' + Constants.TIME_PERIOD_OVERALL + '/?limit=' + props.limit}} exact activeClassName="myActive">
                         <span className={classes.NavigationSubItem}>- All time</span>
+                    </NavLink>
+                    <NavLink onClick={props.closeMenu()} className="bm-item" to={{ pathname: props.route + '/' + Constants.TIME_PERIOD_12_MONTHS + '/?limit=' + props.limit}} exact activeClassName="myActive">
+                        <span className={classes.NavigationSubItem}>- Last 12 months</span>
                     </NavLink>
                     <NavLink onClick={props.closeMenu()} className="bm-item" to={{ pathname: props.route + '/' + Constants.TIME_PERIOD_6_MONTHS + '/?limit=' + props.limit}} exact activeClassName="myActive">
                         <span className={classes.NavigationSubItem}>- Last 6 months</span>

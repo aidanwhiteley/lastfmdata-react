@@ -12,7 +12,7 @@ const pagePartialsContainer = (props) => (
                 <Route name="albums" path="/albums/:timePeriod" component={AlbumsView} />
                 <Route path="/recentTracks/:timePeriod" component={RecentTracksView} />
                 <Route path="/popularTracks/:timePeriod" component={PopularTracksView} />
-                <Redirect exact from="/" to="albums/overall" />
+                <Redirect exact from="/" to="albums/12month" />
             </Switch>
         </div>
     </div>
